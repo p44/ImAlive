@@ -21,7 +21,7 @@ This sample uses
 
 * Twitter Bootstrap 
 * JQuery
-* Coffee Script
+* Coffee Script  http://coffeescript.org/
 * FlotCharts http://www.flotcharts.org/flot/examples/
 * Scala 2.10.2
 * Playframework 2.1.3
