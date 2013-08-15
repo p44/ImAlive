@@ -10,35 +10,22 @@
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
     <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.flot.js"))'></script>
-    <script type='text/javascript' src='@routes.Assets.at("javascripts/index.min.js")'></script>
+    
 </head>
-@defining(java.util.UUID.randomUUID.toString) { uuid =>
-<body data-ws-url="#" data-uuid="@uuid"> <!-- listen for events    routes.Application.simplewebsocket(uuid).webSocketURL(request) -->
-}
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="#">I'm Alive Dashboard</a>
-                <form id="commetinitiate" class="navbar-form pull-right">
-                    <a href="@routes.Application.simplestcomet"><button type="submit" class="btn">Commet Log To Console</button></a>
-                </form>
+                <a class="brand" href="@routes.Application.index">Who is Alive?</a>
+                <div class="pull-right">
+                   <a href="@routes.SimpleExamples.home"><button class="btn">Simple Examples</button></a>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="monitor-out" class="container"></div>
-    
-    <script type="text/javascript">
-    var cometMessage = function(event) {
-       console.log('Received event: ' + event)
-    }
-    var receiveOne = function(event) {
-       logit('Received event: ' + event)
-    }
-    </script>
-
-    <iframe src="@routes.Application.simplecomet"></iframe>
-    <iframe src="@routes.Application.simplestcomet"></iframe>
+    <div id="monitor-out" class="container">
+    </div>
         
 </body>
 </html>

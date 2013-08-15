@@ -1,10 +1,7 @@
 $ ->
 
-logit = (data) ->
-  console.log(data)
+root = exports ? this
 
-getOne = (data) ->
+root.getOne = (data) ->
   1
 
-getTwo = (data) ->
-  2

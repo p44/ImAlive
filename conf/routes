@@ -3,9 +3,10 @@
 # ~~~~
 
 GET     /                           controllers.Application.index
-GET     /simplewebsocket/:uuid      controllers.Application.simplewebsocket(uuid)
-GET     /simplecomet				controllers.Application.simplecomet
-GET     /simplestcomet				controllers.Application.simplestcomet
+GET     /simpleexamples				controllers.SimpleExamples.home
+GET     /simplewebsocket/:uuid      controllers.SimpleExamples.simplewebsocket(uuid)
+GET     /simplecomet				controllers.SimpleExamples.simplecomet
+GET     /simplestcomet				controllers.SimpleExamples.simplestcomet
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
