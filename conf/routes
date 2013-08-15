@@ -2,7 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.Application.index
+GET     /                           	controllers.Application.index
+GET     /feed/imalive/:customerid  		controllers.Application.imAliveFeed(customerid: String)
+POST    /imalive                		controllers.Application.postAliveMessage
+
+# simple examples page
 GET     /simpleexamples				controllers.SimpleExamples.home
 GET     /simplewebsocket/:uuid      controllers.SimpleExamples.simplewebsocket(uuid)
 GET     /simplecomet				controllers.SimpleExamples.simplecomet
