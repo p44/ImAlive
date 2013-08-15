@@ -13,10 +13,10 @@ import play.api.Logger
 import play.api.mvc.WebSocket
 import play.api.libs.Comet
 
-
+/** Simple Comet and WebSocket examples */
 object SimpleExamples extends Controller {
   
-     /** main page */
+   /** main page */
    def home = Action {
      Ok(views.html.simpleexamples.render)
    }
@@ -41,15 +41,12 @@ object SimpleExamples extends Controller {
 	
    /** */
    def simplewebsocket(uuid: String) = WebSocket.using[String] { request => 
-  
       // Log events to the console
       val in = Iteratee.foreach[String](println).mapDone { _ =>
 	     println("Disconnected")
 	  }
-  
       // Send a single 'Hello!' message
       val out = Enumerator("Hello! " + uuid)
-  
       (in, out)
    }
 
