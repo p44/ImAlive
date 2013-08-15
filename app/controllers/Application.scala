@@ -34,9 +34,9 @@ object Application extends Controller {
    def simplestcomet = Action {
      Logger.info("simplestcomet - received request for stream")
      val events = Enumerator(
-         """<script>console.log('uno')</script>""",
-         """<script>console.log('dos')</script>""",
-         """<script>console.log('tres')</script>"""
+         """<script>parent.receiveOne('uno')</script>""",
+         """<script>parent.receiveOne('dos')</script>""",
+         """<script>parent.receiveOne('tres')</script>"""
      )
      Ok.stream(events >>> Enumerator.eof).as(HTML)
    }

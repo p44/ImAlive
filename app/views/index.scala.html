@@ -26,18 +26,19 @@
         </div>
     </div>
 
-    <div id="monitor-out" class="container">
-    
+    <div id="monitor-out" class="container"></div>
     
     <script type="text/javascript">
     var cometMessage = function(event) {
-    console.log('Received event: ' + event)
+       console.log('Received event: ' + event)
+    }
+    var receiveOne = function(event) {
+       logit('Received event: ' + event)
     }
     </script>
 
     <iframe src="@routes.Application.simplecomet"></iframe>
     <iframe src="@routes.Application.simplestcomet"></iframe>
         
-    </div>
 </body>
 </html>
