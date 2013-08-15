@@ -2,6 +2,7 @@ ImAlive
 =============
 
 A sample reactive Play 2.1 application 
+
 Receives (simulated) periodic messages from networked devices, stores and queries.
 
 
@@ -13,6 +14,7 @@ some history
 * This sample retains the Apache 2 license under which Reactive Stocks is protected.
  
 My blog post on first encounter with Activator:
+
 http://processor44.blogspot.com/2013/07/go-typesafe-activator.html
  
 
