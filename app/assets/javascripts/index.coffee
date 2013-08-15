@@ -1,4 +1,7 @@
 $ ->
-  ws = new WebSocket $("body").data("ws-url")
-  ws.onmessage = (event) ->
-    message = Hello
+
+getOne = (data) ->
+  1
+
+getTwo = (data) ->
+  2

@@ -13,17 +13,30 @@
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.min.js")'></script>
 </head>
 @defining(java.util.UUID.randomUUID.toString) { uuid =>
-<body data-ws-url="#" data-uuid="@uuid">
+<body data-ws-url="#" data-uuid="@uuid"> <!-- listen for events    routes.Application.simplewebsocket(uuid).webSocketURL(request) -->
 }
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
                 <a class="brand" href="#">I'm Alive Dashboard</a>
+                <form id="commetinitiate" class="navbar-form pull-right">
+                    <a href="@routes.Application.simplestcomet"><button type="submit" class="btn">Commet Log To Console</button></a>
+                </form>
             </div>
         </div>
     </div>
 
     <div id="monitor-out" class="container">
+    
+    
+    <script type="text/javascript">
+    var cometMessage = function(event) {
+    console.log('Received event: ' + event)
+    }
+    </script>
+
+    <iframe src="@routes.Application.simplecomet"></iframe>
+    <iframe src="@routes.Application.simplestcomet"></iframe>
         
     </div>
 </body>
