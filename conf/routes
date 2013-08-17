@@ -4,6 +4,7 @@
 
 GET     /                           	controllers.Application.index
 GET     /feed/imalive/:customerid  		controllers.Application.imAliveFeed(customerid: String)
+GET     /feed/imalive					controllers.Application.imAliveFeedAll
 POST    /imalive                		controllers.Application.postAliveMessage
 
 # simple examples page

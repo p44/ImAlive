@@ -30,7 +30,7 @@ object Application extends Controller {
     jsonValue match {
       case None => {
         Logger.info("postAliveMessage - Bad request body " + req.body)
-        BadRequest("Could not resolve body as json " + req.body)
+        BadRequest("Could not resolve request body as json " + req.body)
       }
       case _ => {
         aliveChannel.push(jsonValue.get);
@@ -55,11 +55,20 @@ object Application extends Controller {
     }
   }
 
-  /** Controller action serving activity based on room */
+  /** Controller action serving activity based on customer */
   def imAliveFeed(customerid: String) = Action { req =>
     Logger.info(req.remoteAddress + " - imAliveFeed connected")
     Ok.stream(aliveOut
       &> filtercustomer(customerid)
+      &> Concurrent.buffer(50)
+      &> connDeathWatch(req.remoteAddress)
+      &> EventSource()).as("text/event-stream")
+  }
+  
+  /** Controller action serving activity all (no filter) */
+  def imAliveFeedAll = Action { req =>
+    Logger.info(req.remoteAddress + " - imAliveFeed connected")
+    Ok.stream(aliveOut
       &> Concurrent.buffer(50)
       &> connDeathWatch(req.remoteAddress)
       &> EventSource()).as("text/event-stream")
