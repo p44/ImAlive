@@ -1,5 +1,6 @@
 package controllers
 
+import models._
 import play.api.mvc._
 import play.api.libs.json.JsValue
 import play.api.libs.iteratee.{ Concurrent, Enumeratee, Enumerator }
@@ -26,6 +27,7 @@ object Application extends Controller {
   /** Controller action for Posting 'I'm Alive' messages */
   def postAliveMessage = Action { req =>
     val jsonValue: Option[JsValue] = req.body.asJson
+    Logger.info("postAliveMessage - request.headers " + req.headers)
     Logger.info("postAliveMessage - request.body.asJson " + jsonValue)
     jsonValue match {
       case None => {
@@ -33,7 +35,12 @@ object Application extends Controller {
         BadRequest("Could not resolve request body as json " + req.body)
       }
       case _ => {
-        aliveChannel.push(jsonValue.get);
+        // TODO utilize token in oAuth bearer token manner in security wrapper for this POST
+        val secToken: Option[String] = req.headers.get(ImAliveConstants.SECURITY_TOKEN_KEY)
+        Logger.info("postAliveMessage - secToken " + secToken + " is defined " + secToken.isDefined) 
+        // NOTE: assumes a standard format of json here
+        // TODO: push to a big data store
+        aliveChannel.push(jsonValue.get); // publish to the channel
         Ok
       }
     }
