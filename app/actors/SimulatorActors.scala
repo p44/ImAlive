@@ -12,6 +12,7 @@ import play.api.libs.ws.WS
 import play.api.Logger
 import play.api.libs.json._
 
+/** Simulator Actor system primary setup; references and messages */
 object SimulatorActors {
 
   /** SSE-Chat actor system */
@@ -46,21 +47,27 @@ class SimulatorActor extends Actor {
 }
 
 
-/** Simulation logic */
+/** Simulation logic used by actors or testing */
 object SimulatorHelper {
 
   /** POSTs single one time json to imalive service*/
   def simulateOne = {
     val now: Long = System.currentTimeMillis
-    val j:JsValue = Json.obj(
-      "customer" -> JsNumber(1),
-      "mac" -> "1234567890",
-      "message" -> "I'm Alive",
-      "timestamp" -> JsNumber(now))
+    val j:JsValue = genOneJson(1L, "1234567890", now)
     val callImAlive: WS.WSRequestHolder = WS.url(ImAliveConstants.URL_IMALIVE)
-    Logger.info("SimulateOne - post content " + j)
+    Logger.info("SimulateOne - post status " + j)
     // TODO oAuth 2 simple bearer token
-    callImAlive.withHeaders((ImAliveConstants.SECURITY_TOKEN_KEY, ImAliveConstants.SIMULATION_SECURITY_TOKEN)).post(j) //callImAlive.post(JsNull)
+    callImAlive.withHeaders((ImAliveConstants.SECURITY_TOKEN_KEY, ImAliveConstants.SIMULATION_SECURITY_TOKEN)).post(j) 
+    //callImAlive.post(JsNull)
+  }
+  
+  /** simple one json message with "timestamp" param in millis as specified */
+  def genOneJson(custId: Long, mac: String, tsMillis: Long): JsValue = {
+    Json.obj(
+      "customer" -> JsNumber(custId),
+      "mac" -> mac,
+      "message" -> "I'm Alive",
+      "timestamp" -> JsNumber(tsMillis))
   }
   
   /** POSTs repeating multiple json to imalive service*/
