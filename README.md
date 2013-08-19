@@ -25,11 +25,8 @@ This sample uses
 * JQuery
 * Coffee Script  http://coffeescript.org/
 * FlotCharts http://www.flotcharts.org/flot/examples/
+* AngularJs 1.1
 * Scala 2.10.2
 * Playframework 2.1.3
 * Akka 2.2.0
 
-
-```shell
-  sbt
-```
