@@ -39,13 +39,34 @@ class SimulatorActor extends Actor {
   def receive = {
     case SimulatorActors.SimulateOne => // simulates an external client posting alive messages
       // POST to imalive
-      val callImAlive: WS.WSRequestHolder = WS.url("http://localhost:9000/imalive")
-      val j = Json.obj(
-        "customer" -> 1,
-        "mac" -> "1234567890",
-        "message" -> "I'm Alive")
-      Logger.info("SimulateOne - post content " + j)
-      callImAlive.post(j) //callImAlive.post(JsNull)
+      SimulatorHelper.simulateOne
   }
 
+}
+
+
+/** Simulation logic */
+object SimulatorHelper {
+
+  val imaliveUrl = "http://localhost:9000/imalive"
+
+  /** POSTs single one time json to imalive service*/
+  def simulateOne = {
+    val now: Long = System.currentTimeMillis
+    val j:JsValue = Json.obj(
+      "customer" -> 1,
+      "mac" -> "1234567890",
+      "message" -> "I'm Alive",
+      "timestamp" -> JsNumber(now))
+    val callImAlive: WS.WSRequestHolder = WS.url("http://localhost:9000/imalive")
+    Logger.info("SimulateOne - post content " + j)
+    callImAlive.post(j) //callImAlive.post(JsNull)
+  }
+  
+  /** POSTs repeating multiple json to imalive service*/
+  def simulateMultipleRepeating = {
+    
+  }
+  
+  
 }
