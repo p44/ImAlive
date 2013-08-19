@@ -1,5 +1,6 @@
 package actors
 
+import models._
 import akka.actor._
 import java.util.Random
 import scala.collection.immutable.Queue
@@ -48,19 +49,18 @@ class SimulatorActor extends Actor {
 /** Simulation logic */
 object SimulatorHelper {
 
-  val imaliveUrl = "http://localhost:9000/imalive"
-
   /** POSTs single one time json to imalive service*/
   def simulateOne = {
     val now: Long = System.currentTimeMillis
     val j:JsValue = Json.obj(
-      "customer" -> 1,
+      "customer" -> JsNumber(1),
       "mac" -> "1234567890",
       "message" -> "I'm Alive",
       "timestamp" -> JsNumber(now))
-    val callImAlive: WS.WSRequestHolder = WS.url("http://localhost:9000/imalive")
+    val callImAlive: WS.WSRequestHolder = WS.url(ImAliveConstants.URL_IMALIVE)
     Logger.info("SimulateOne - post content " + j)
-    callImAlive.post(j) //callImAlive.post(JsNull)
+    // TODO oAuth 2 simple bearer token
+    callImAlive.withHeaders((ImAliveConstants.SECURITY_TOKEN_KEY, ImAliveConstants.SIMULATION_SECURITY_TOKEN)).post(j) //callImAlive.post(JsNull)
   }
   
   /** POSTs repeating multiple json to imalive service*/
