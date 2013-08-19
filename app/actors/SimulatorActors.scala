@@ -64,7 +64,7 @@ object SimulatorHelper {
   /** simple one json message with "timestamp" param in millis as specified */
   def genOneJson(custId: Long, mac: String, tsMillis: Long): JsValue = {
     Json.obj(
-      "customer" -> JsNumber(custId),
+      "customerid" -> JsNumber(custId),
       "mac" -> mac,
       "message" -> "I'm Alive",
       "timestamp" -> JsNumber(tsMillis))
