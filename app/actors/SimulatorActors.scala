@@ -40,13 +40,12 @@ class SimulatorActor extends Actor {
     case SimulatorActors.SimulateOne => // simulates an external client posting alive messages
       // POST to imalive
       val callImAlive: WS.WSRequestHolder = WS.url("http://localhost:9000/imalive")
-      //callImAlive.post(JsNull)
       val j = Json.obj(
         "customer" -> 1,
         "mac" -> "1234567890",
         "message" -> "I'm Alive")
       Logger.info("SimulateOne - post content " + j)
-      callImAlive.post(j)
+      callImAlive.post(j) //callImAlive.post(JsNull)
   }
 
 }
