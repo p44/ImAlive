@@ -47,26 +47,32 @@ object Application extends Controller {
 
   }
 
-  /** Enumeratee for filtering messages based on customer */
-  def filtercustomer(customerid: String) = Enumeratee.filter[JsValue] { json: JsValue =>
+  /** Enumeratee for filtering messages based on customer * /
+  def filter(customerid: String) = Enumeratee.filter[JsValue] { json: JsValue =>
     val i = (json \ "customerid").as[String]
-    val b = i == customerid
-    Logger.debug("filtercustomer - json id " + i + " customerid " + customerid + " match " + b)
+    val b: Boolean = (i == customerid)
+    println("filtercustomer - json " + json)
+    println("filtercustomer - comparing the customer id " + customerid  + " to the json customer id " + i + " for a result of " + b)
     b
   }
+  */
+  
+  def filtercustomer(cid: String) = Enumeratee.filter[JsValue] { json: JsValue => (json \ "customerid").as[String] == cid }
 
   /** Enumeratee for detecting disconnect of the stream */
   def connDeathWatch(addr: String): Enumeratee[JsValue, JsValue] = {
     Enumeratee.onIterateeDone { () =>
-      Logger.info(addr + " - imAliveFeed disconnected")
+      println(addr + " - imAliveFeed disconnected")
     }
   }
 
   /** Controller action serving activity based on customer */
   def imAliveFeed(customerid: String) = Action { req =>
-    Logger.info(req.remoteAddress + " - imAliveFeed connected")
+    Logger.info("FEED imAliveFeed (customer filtered [" + customerid + "] - " + req.remoteAddress + " - imAliveFeed connected")
+    //val filterResult = filtercustomer(customerid: String)
+    //println("imAliveFeed - filterResult " + filterResult)
     Ok.stream(aliveOut
-      &> filtercustomer(customerid)
+      &> filtercustomer(customerid: String)
       &> Concurrent.buffer(50)
       &> connDeathWatch(req.remoteAddress)
       &> EventSource()).as("text/event-stream")
@@ -74,7 +80,7 @@ object Application extends Controller {
   
   /** Controller action serving activity all (no filter) */
   def imAliveFeedAll = Action { req =>
-    Logger.info(req.remoteAddress + " - imAliveFeed connected")
+    Logger.info("FEED imAliveFeedAll - " + req.remoteAddress + " - imAliveFeed connected")
     Ok.stream(aliveOut
       &> Concurrent.buffer(50)
       &> connDeathWatch(req.remoteAddress)

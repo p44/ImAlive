@@ -4,28 +4,57 @@
 
 <html>
 <head>
-    <title>I'm Alive Dashboard</title>
-    <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.min.css")">
-    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    <script type='text/javascript' src="@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))"></script>
-    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
-    <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.flot.js"))'></script>
+<title>I'm Alive Dashboard</title>
+<link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
+<link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.min.css")'>
+<link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.min.js"))'></script>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("angular.min.js"))'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/app.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/services.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/controllers.js")'></script>
+<script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.flot.js"))'></script>
 </head>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="brand" href="@routes.Application.index">Who is Alive?</a>
-                <div class="pull-right">
-                   <a href="@routes.SimpleExamples.home"><button class="btn">Simple Examples</button></a>
-                </div>
-            </div>
-        </div>
-    </div>
+<body ng-app="imAlive">
+	<!-- angularjs directive see app.js, services.js, and controllers.js -->
 
-    <div id="monitor-out" class="container">
-    </div>
-        
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="@routes.Application.index">Who is Alive?</a>
+				<div class="pull-right">
+					<a href="@routes.SimpleExamples.home"><button class="btn">Simple Examples</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div ng-controller="AliveCtrl">
+		<!-- div id="header">
+			    Customer:
+				<select ng-model="currentCustomer"
+				   ng-change="setCurrentCustomer(currentCustomer)"
+				   ng-options="r.name for r in customers" id="customerSelect">
+				</select>
+		</div>  -->
+		
+		<div id="header">
+		</div>
+
+		<div id="messages-out">
+			<div class="msg" ng-repeat="msg in msgs | limitTo:-10"
+				ng-class="msg.user === 'Juliet' ? 'juliet' : msg.user !== user ? 'others' : ''">
+				<strong>"{{msg.message}}" from {{msg.mac}} belonging to customer id: {{msg.customerid}} captured at time (millis): {{msg.timestamp}}</strong><br/>
+			</div>
+		</div>
+
+		<div id="footer">
+		</div>
+
+	</div>
+
+	<div id="monitor-out" class="container"></div>
+
 </body>
 </html>
