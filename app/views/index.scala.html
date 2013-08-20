@@ -29,6 +29,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<h2>Status Feed</h2>
 
 	<div ng-controller="AliveCtrl">
 		<!-- div id="header">
@@ -43,8 +45,7 @@
 		</div>
 
 		<div id="messages-out">
-			<div class="msg" ng-repeat="msg in msgs | limitTo:-10"
-				ng-class="msg.user === 'Juliet' ? 'juliet' : msg.user !== user ? 'others' : ''">
+			<div class="msg" ng-repeat="msg in msgs | limitTo:-10">
 				<strong>"{{msg.message}}" from {{msg.mac}} belonging to customer id: {{msg.customerid}} captured at time (millis): {{msg.timestamp}}</strong><br/>
 			</div>
 		</div>
