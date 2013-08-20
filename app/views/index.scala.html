@@ -30,32 +30,43 @@
 		</div>
 	</div>
 	
-	<h2>Status Feed</h2>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<h2>Status Feed</h2>
+			</div>
+		</div>
 
-	<div ng-controller="AliveCtrl">
-		<!-- div id="header">
+		<div class="row-fluid">
+			<div class="span6">
+				<div ng-controller="AliveCtrl">
+					<!-- div id="header">
 			    Customer:
 				<select ng-model="currentCustomer"
 				   ng-change="setCurrentCustomer(currentCustomer)"
 				   ng-options="r.name for r in customers" id="customerSelect">
 				</select>
-		</div>  -->
-		
-		<div id="header">
-		</div>
+		             </div>  -->
 
-		<div id="messages-out">
-			<div class="msg" ng-repeat="msg in msgs | limitTo:-10">
-				<strong>"{{msg.message}}" from {{msg.mac}} belonging to customer id: {{msg.customerid}} captured at time (millis): {{msg.timestamp}}</strong><br/>
-			</div>
-		</div>
+					<div id="header"></div>
 
-		<div id="footer">
-		</div>
+					<div id="messages-out">
+						<div class="msg" ng-repeat="msg in msgs | limitTo:-10">
+							<strong>"{{msg.message}}" from {{msg.mac}} belonging to customer id: {{msg.customerid}}</strong><br /> 
+							captured at time (millis): {{msg.timestamp}}<br />
+						</div>
+					</div>
 
+					<div id="footer"></div>
+				</div>
+				
+			</div><!-- span6 -->
+			<div class="span6">
+				Put Chart Here
+			</div><!-- span6 -->
+
+		</div>
 	</div>
-
 	<div id="monitor-out" class="container"></div>
-
 </body>
 </html>
