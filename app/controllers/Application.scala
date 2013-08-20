@@ -10,7 +10,7 @@ import play.api.Logger
 /**
  * Entry application controller
  */
-object Application extends Controller {
+object Application extends Controller with Secured {
 
   /**
    * Central hub for distributing I'm Alive messages
