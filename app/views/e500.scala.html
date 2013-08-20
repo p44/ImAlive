@@ -1,0 +1,23 @@
+@(ex: Throwable)
+<link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))'>
+<html>
+<body>
+<div class="span12">
+<div class="row-fluid">
+
+  <div class="span4">&nbsp;</div>
+  <div class="span4">
+      
+      <h3>Error 500</h3>
+      <br/>
+      <p><strong>Error Message:</strong></p>
+      <p>@ex.getMessage</p>    
+      <br/>  
+
+  </div><!--/span4 --> 
+  <div class="span4">&nbsp;</div>
+
+</div><!--/row--> 
+</div><!-- span12 -->
+</body>
+</html>
