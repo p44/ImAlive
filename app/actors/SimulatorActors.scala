@@ -19,13 +19,13 @@ object SimulatorActors {
   val system = ActorSystem("imalive-simulate")
 
   /** Supervisor for Romeo and Juliet */
-  val supervisor = system.actorOf(Props(new Supervisor()), "Supervisor")
+  val supervisor = system.actorOf(Props(new SimulatorSupervisor()), "SimulatorSupervisor")
 
   case object SimulateOne
 }
 
 /** Supervisor initiating simulation actors and scheduling */
-class Supervisor() extends Actor {
+class SimulatorSupervisor extends Actor {
 
   val simulator = context.actorOf(Props(new SimulatorActor))
   context.system.scheduler.schedule(1 seconds, 15 seconds, simulator, SimulatorActors.SimulateOne)
