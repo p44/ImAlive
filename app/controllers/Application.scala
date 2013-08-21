@@ -1,5 +1,6 @@
 package controllers
 
+import actors._
 import models._
 import play.api.mvc._
 import play.api.libs.json.JsValue
@@ -24,39 +25,44 @@ object Application extends Controller with Secured {
     Ok(views.html.index.render)
   }
 
-  /** Controller action for Posting 'I'm Alive' messages */
-  def postAliveMessage = Action { req =>
-    val jsonValue: Option[JsValue] = req.body.asJson
-    Logger.info("postAliveMessage - request.headers " + req.headers)
-    Logger.info("postAliveMessage - request.body.asJson " + jsonValue)
-    jsonValue match {
-      case None => {
-        Logger.info("postAliveMessage - Bad request body " + req.body)
-        BadRequest("Could not resolve request body as json " + req.body)
+  /**
+   * Controller action for Posting 'I'm Alive' messages
+   * authenticates with Secured.withTokenAuth
+   */
+  def postAliveMessage = withTokenAuth { token =>
+    //val secToken: Option[String] = req.headers.get(ImAliveConstants.SECURITY_TOKEN_KEY)
+    Logger.info("postAliveMessage - secToken " + token)
+    req =>
+      val jsonValue: Option[JsValue] = req.body.asJson
+      Logger.info("postAliveMessage - request.headers " + req.headers)
+      Logger.info("postAliveMessage - request.body.asJson " + jsonValue)
+      jsonValue match {
+        case None => {
+          Logger.info("postAliveMessage - Bad request body " + req.body)
+          BadRequest("Could not resolve request body as json " + req.body)
+        }
+        case _ => {
+          // NOTE: assumes a standard format of json here
+          // save to a big data store
+          BigDataActors.supervisor ! BigDataActors.ReceiveOneStatusMessage(jsonValue.get)
+          aliveChannel.push(jsonValue.get); // publish to the channel
+          Ok
+        }
       }
-      case _ => {
-        // TODO utilize token in oAuth bearer token manner in security wrapper for this POST
-        val secToken: Option[String] = req.headers.get(ImAliveConstants.SECURITY_TOKEN_KEY)
-        Logger.info("postAliveMessage - secToken " + secToken + " is defined " + secToken.isDefined) 
-        // NOTE: assumes a standard format of json here
-        // TODO: push to a big data store
-        aliveChannel.push(jsonValue.get); // publish to the channel
-        Ok
-      }
-    }
 
   }
 
-  /** Enumeratee for filtering messages based on customer * /
-  def filter(customerid: String) = Enumeratee.filter[JsValue] { json: JsValue =>
-    val i = (json \ "customerid").as[String]
-    val b: Boolean = (i == customerid)
-    println("filtercustomer - json " + json)
-    println("filtercustomer - comparing the customer id " + customerid  + " to the json customer id " + i + " for a result of " + b)
-    b
-  }
-  */
-  
+  /**
+   * Enumeratee for filtering messages based on customer * /
+   * def filter(customerid: String) = Enumeratee.filter[JsValue] { json: JsValue =>
+   * val i = (json \ "customerid").as[String]
+   * val b: Boolean = (i == customerid)
+   * println("filtercustomer - json " + json)
+   * println("filtercustomer - comparing the customer id " + customerid  + " to the json customer id " + i + " for a result of " + b)
+   * b
+   * }
+   */
+
   def filtercustomer(cid: String) = Enumeratee.filter[JsValue] { json: JsValue => (json \ "customerid").as[String] == cid }
 
   /** Enumeratee for detecting disconnect of the stream */
@@ -77,7 +83,7 @@ object Application extends Controller with Secured {
       &> connDeathWatch(req.remoteAddress)
       &> EventSource()).as("text/event-stream")
   }
-  
+
   /** Controller action serving activity all (no filter) */
   def imAliveFeedAll = Action { req =>
     Logger.info("FEED imAliveFeedAll - " + req.remoteAddress + " - imAliveFeed connected")
