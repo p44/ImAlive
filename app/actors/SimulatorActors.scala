@@ -49,11 +49,14 @@ class SimulatorActor extends Actor {
 
 /** Simulation logic used by actors or testing */
 object SimulatorHelper {
+  
+  val possibleMessages = Seq("Yo", "I'm Alive", "On Line", "All Good Here", "Still Running", "Yep", "Bueno", "Boo", "Hola", "Status Green")
+  def genMessage: String = { possibleMessages(scala.util.Random.nextInt(possibleMessages.size)) }
 
   /** POSTs single one time json to imalive service*/
   def simulateOne = {
     val now: Long = System.currentTimeMillis
-    val j:JsValue = genOneJson(1L, "1234567890", now)
+    val j:JsValue = genOneJsonFixed(1L, "1234567890", now)
     val callImAlive: WS.WSRequestHolder = WS.url(ImAliveConstants.URL_IMALIVE)
     Logger.info("SimulateOne - post status " + j)
     // TODO oAuth 2 simple bearer token
@@ -62,12 +65,21 @@ object SimulatorHelper {
   }
   
   /** simple one json message with "timestamp" param in millis as specified */
-  def genOneJson(custId: Long, mac: String, tsMillis: Long): JsValue = {
+  def genOneJsonFixed(custId: Long, mac: String, tsMillis: Long): JsValue = {
     Json.obj(
       "customerid" -> JsNumber(custId),
       "mac" -> mac,
       "message" -> "I'm Alive",
       "timestamp" -> JsNumber(tsMillis))
+  }
+  
+  /**
+   * Uses Models.customerDeviceCatalog and genMessage to create a status message
+   */
+  def genOneJsonRandom(tsMillis: Long): JsValue = {
+    val d = Models.getRandomDeviceFromCatalog
+    val sm = StatusMessage.simulateFromDevice(d, tsMillis, genMessage)
+    Json.toJson(sm)
   }
   
   /** POSTs repeating multiple json to imalive service*/
