@@ -53,8 +53,6 @@
 					<div id="header"></div>
 
 					<div id="messages-out">
-					<!--  {"id":1001,"message":"I'm Alive","ts":1377635592057,"tsFormatted":"2013-08-27 14:33:12","cid":1,"cName":"Govermnet Snoopers",
-					       "mac":"0090990F9F99","ip":"222.222.222.222","lat":38.907231,"long":-77.036464,"info":"Email reader 39"} -->
 						<div class="msg" ng-repeat="msg in msgs | limitTo:-7">
 							<strong>"{{msg.message}}" from {{msg.mac}}/{{msg.ip}} at {{msg.tsFormatted}}  </strong><br /> 
 							 ({{msg.cid}}) {{msg.cName}}<br />
@@ -67,12 +65,14 @@
 				
 			</div><!-- span6 -->
 			<div class="span6">
-				Chart One<br/>
-				<div id="placeholder" style="width:600px;height:300px"></div>
-				Chart Two<br/>
-				<!-- div id="placeholder2" style="width:600px;height:300px"></div>  -->
-				<div id="placeholder3" style="width:600px;height:300px"></div>
-				<!-- chart ng-model='data'></chart>  -->
+			    <!--  div ng-controller="AliveCtrl"> -->
+				  Chart One<br/>
+				  <div id="placeholder" style="width:600px;height:300px"></div>
+				  Chart Two<br/>
+				  <!-- div id="placeholder2" style="width:600px;height:300px"></div>  -->
+				  <div id="placeholder3" class="chart" style="width:600px;height:300px" ></div>
+				  <!--  chart ng-model='data'> -->
+				<!--  /div> -->
 			</div><!-- span6 -->
 
 		</div>
