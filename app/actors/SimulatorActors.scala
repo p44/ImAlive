@@ -40,7 +40,7 @@ class SimulatorActor extends Actor {
 
   def receive = {
     case SimulatorActors.SimulateOne => // simulates an external client posting alive messages
-      // POST to imalive
+      // POSTs to imalive
       SimulatorHelper.simulateOne
   }
 
