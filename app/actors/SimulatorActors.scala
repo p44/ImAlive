@@ -15,10 +15,10 @@ import play.api.libs.json._
 /** Simulator Actor system primary setup; references and messages */
 object SimulatorActors {
 
-  /** SSE-Chat actor system */
+  /** ImAlive actor system */
   val system = ActorSystem("imalive-simulate")
 
-  /** Supervisor for Romeo and Juliet */
+  /** Supervisor for Simulation */
   val supervisor = system.actorOf(Props(new SimulatorSupervisor()), "SimulatorSupervisor")
 
   case object SimulateOne
