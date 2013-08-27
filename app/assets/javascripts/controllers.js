@@ -16,13 +16,6 @@ angular.module('imAlive.controllers', ['imAlive.services']).
             $scope.listen();
         };
 
-        /** posting chat text to server */
-        $scope.submitMsg = function () {
-            $http.post("/chat", { text: $scope.inputText, user: $scope.user,
-                time: (new Date()).toUTCString(), room: $scope.currentRoom.value });
-            $scope.inputText = "";
-        };
-
         /** handle incoming messages: add to messages array */
         $scope.addMsg = function (msg) { 
             $scope.$apply(function () { $scope.msgs.push(JSON.parse(msg.data)); });
