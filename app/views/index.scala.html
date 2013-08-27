@@ -53,9 +53,12 @@
 					<div id="header"></div>
 
 					<div id="messages-out">
+					<!--  {"id":1001,"message":"I'm Alive","ts":1377635592057,"tsFormatted":"2013-08-27 14:33:12","cid":1,"cName":"Govermnet Snoopers",
+					       "mac":"0090990F9F99","ip":"222.222.222.222","lat":38.907231,"long":-77.036464,"info":"Email reader 39"} -->
 						<div class="msg" ng-repeat="msg in msgs | limitTo:-10">
-							<strong>"{{msg.message}}" from {{msg.mac}} belonging to customer id: {{msg.customerid}}</strong><br /> 
-							captured at time (millis): {{msg.timestamp}}<br />
+							<strong>"{{msg.message}}" from {{msg.mac}}/{{msg.ip}} | {{msg.cid}}/{{msg.cName}} </strong><br /> 
+							{{msg.tsFormatted}} ({{msg.ts}})<br />
+							<strong>{{msg.info}} | latitude/longitude: {{msg.lat}}/{{msg.long}}</strong><br />
 						</div>
 					</div>
 
