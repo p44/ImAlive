@@ -4,11 +4,11 @@ import org.specs2.mutable._
 import play.api.libs.json._
 
 object ModelsSpec extends Specification {
-  
-  //$ sbt > test-only models.ModelsSpec
-  
+
+  //sbt > test-only models.ModelsSpec
+
   "Models" should {
-    "serialize to from json" in { // tests json to from explicit and with Json.writes and .reads
+    "Customer serialize to from json" in { // tests json to from explicit and with Json.writes and .reads
       val c = Customer(11L, "Stubs")
       val jsVal: JsValue = Customer.toJsValue(c)
       val jsVal2: JsValue = Json.toJson(c) // uses Customer.custWriter 
@@ -23,6 +23,28 @@ object ModelsSpec extends Specification {
       println("cParsed2 - " + cParsed2 + " oc2 " + oc2)
       oc2 mustNotEqual None
       oc2.get mustEqual c
+    }
+
+    "getRandomDeviceFromCatalog" in {
+      val d = Models.getRandomDeviceFromCatalog
+      println("getRandomDeviceFromCatalog - d " + d)
+      Models.customerDeviceCatalog.contains(d) mustEqual true
+    }
+
+    "StatusMessage.simulateFromDevice" in {
+      val at0 = Models.customerDeviceCatalog(0)
+      println("at0 " + at0)
+      val at1 = Models.customerDeviceCatalog(1)
+      println("at1 " + at1)
+      at0 mustNotEqual at1
+
+      val d = at1
+      val now = System.currentTimeMillis
+      val sm = StatusMessage.simulateFromDevice(d, now, "TestMessage")
+      println("StatusMessage.simulateFromDevice - sm " + sm)
+      sm.id mustEqual d.id
+      sm.message mustEqual "TestMessage"
+      sm.ts mustEqual now
     }
   }
 
