@@ -7,13 +7,13 @@ object Models {
   
   val cid1: Long = 1L
   val cid2: Long = 2L
-  lazy val customers: List[Customer] = List[Customer](Customer(cid1, "Goverment Snoopers"), Customer(cid2, "Hackers Unlimited"))
+  lazy val customers: List[Customer] = List[Customer](Customer(cid1, "Government Snoopers"), Customer(cid2, "Hackers Unlimited"))
   lazy val customerDeviceCatalog: Seq[Device] = Seq[Device](
       // Device(id: Long, cid: Long, mac: String, ip: String, lat: Long, long: Long, desc: String, misc: String)
       Device(1001L, cid1, "0090990F9F99", "222.222.222.222", 38.8710, -77.0560, "Email reader 39", "12,0,66,99,1,1,0"),
       Device(1002L, cid1, "0090990F9F87", "222.222.222.221", 38.907231,-77.036464, "FB scraper 87", "11,3,62,92,1,0,5"),
-      Device(7001L, cid2, "0040690F8A09", "111.333.333.11", 40.0176, -105.2797, "Constitution X", "100110111101"),
-      Device(7002L, cid2, "0040110F8B77", "111.333.333.14", 39.7392, -104.9847, "Of The People By The People Z", "101110110101")
+      Device(7001L, cid2, "0040690F8A09", "111.333.333.11", 40.0176, -105.2797, "Obi Wan", "100110111101"),
+      Device(7002L, cid2, "0040110F8B77", "111.333.333.14", 39.7392, -104.9847, "Anakin", "101110110101")
       )
       
   def getRandomDeviceFromCatalog: Device =  { customerDeviceCatalog(scala.util.Random.nextInt(customerDeviceCatalog.size)) }
