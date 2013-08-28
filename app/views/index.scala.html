@@ -14,8 +14,7 @@
 <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.flot.js"))'></script>
 <script type='text/javascript' src='@routes.Assets.at("javascripts/app.min.js")'></script>
 <script type='text/javascript' src='@routes.Assets.at("javascripts/services.min.js")'></script>
-<script type='text/javascript' src='@routes.Assets.at("javascripts/controllers.min.js")'></script>
-<script type='text/javascript' src='@routes.Assets.at("javascripts/indexcharts.min.js")'></script>
+<script type='text/javascript' src='@routes.Assets.at("javascripts/controllers.js")'></script>
 </head>
 
 <body ng-app="imAlive">
@@ -65,14 +64,9 @@
 				
 			</div><!-- span6 -->
 			<div class="span6">
-			    <!--  div ng-controller="AliveCtrl"> -->
-				  Chart One<br/>
-				  <div id="placeholder" style="width:600px;height:300px"></div>
-				  Chart Two<br/>
-				  <!-- div id="placeholder2" style="width:600px;height:300px"></div>  -->
-				  <div id="placeholder3" class="chart" style="width:600px;height:300px" ></div>
-				  <!--  chart ng-model='data'> -->
-				<!--  /div> -->
+			    <div class="chart1-container">
+			       <div id="feedchart" class="chart1-placeholder"></div>
+		       </div>
 			</div><!-- span6 -->
 
 		</div>
