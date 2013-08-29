@@ -16,8 +16,9 @@ object ApplicationBuild extends Build {
     "org.webjars" % "bootstrap" % "2.3.1",
     "org.webjars" % "flot" % "0.8.0",
     "org.webjars" % "angularjs" % "1.1.5-1",
-    "com.typesafe.akka" %% "akka-testkit" % "2.2.0" % "test" //,
-    //"com.google.api-client" % "google-api-client" % "1.17.0-rc-SNAPSHOT"
+    "com.typesafe.akka" %% "akka-testkit" % "2.2.0" % "test",
+    "com.google.oauth-client" % "google-oauth-client" % "1.16.0-rc", // this also pulls google-http-client-1.16.0-rc
+    "com.google.api-client" % "google-api-client" % "1.16.0-rc"
     //"com.google.apis" % "google-api-services-bigquery" % "v2-rev42-1.12.0-beta"
   )
 
