@@ -18,8 +18,11 @@ object ApplicationBuild extends Build {
     "org.webjars" % "angularjs" % "1.1.5-1",
     "com.typesafe.akka" %% "akka-testkit" % "2.2.0" % "test",
     "com.google.oauth-client" % "google-oauth-client" % "1.16.0-rc", // this also pulls google-http-client-1.16.0-rc
-    "com.google.api-client" % "google-api-client" % "1.16.0-rc"
-    //"com.google.apis" % "google-api-services-bigquery" % "v2-rev42-1.12.0-beta"
+    "com.google.api-client" % "google-api-client" % "1.16.0-rc",
+    "com.google.api-client" % "google-api-client-jackson2" % "1.16.0-rc",
+    //"com.google.apis" % "google-api-client-appengine" % "1.16.0-rc",
+    "com.google.apis" % "google-api-services-bigquery" % "v2-rev103-1.16.0-rc",
+    "javax" % "javaee-api" % "6.0-RC2"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
