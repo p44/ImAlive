@@ -2,8 +2,12 @@ package models
 
 import util._
 import play.api.libs.json._
+import com.typesafe.config.ConfigFactory
 
 object Models {
+  
+  val CONF = ConfigFactory.load
+  val GOOGLE_CLIENT_SECRETS_LOCATION = CONF.getString("google.client.secrets.location")
   
   val cid1: Long = 1L
   val cid2: Long = 2L
