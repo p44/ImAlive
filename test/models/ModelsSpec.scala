@@ -46,6 +46,11 @@ object ModelsSpec extends Specification {
       sm.message mustEqual "TestMessage"
       sm.ts mustEqual now
     }
+    
+    "have GOOGLE_CLIENT_SECRETS_LOCATION" in {
+      println("Models.GOOGLE_CLIENT_SECRETS_LOCATION " + Models.GOOGLE_CLIENT_SECRETS_LOCATION)
+      Models.GOOGLE_CLIENT_SECRETS_LOCATION.isEmpty mustEqual false
+    }
   }
 
 }
