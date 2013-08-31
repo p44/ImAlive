@@ -9,7 +9,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
 object GoogleBigQueryUtilSpec extends Specification {
 
   //sbt > test-only util.GoogleBigQueryUtilSpec
-  
+
   val ATUH_URI = "https://accounts.google.com/o/oauth2/auth"
   val RESOURCE_LOCATION_TEST: String = "conf/google_client_secrets.json";
 
@@ -53,12 +53,36 @@ object GoogleBigQueryUtilSpec extends Specification {
         gcs.getDetails.getAuthUri mustEqual ATUH_URI
       }
     }
-    
+
     "GoogleCredentialsUtil.newFlow" in {
-      val flow = GoogleCredentialsUtil.newFlow
+      val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(RESOURCE_LOCATION_TEST)
+      val flow = GoogleCredentialsUtil.newFlow(gcs)
       println("GoogleCredentialsUtil.newFlow - flow" + flow)
       flow.getApprovalPrompt mustEqual "auto"
     }
+
+    "GoogleCredentialsUtil.buildAuthorizationUrl" in {
+      running(FakeApplication()) {
+//        // build a real url from the props  // Error: invalid_client
+//        val realClientSecretsLoc = "conf/my_client_secrets.json"
+        val realClientSecretsLoc = "conf/installed_bigquery_client_secrets.json"
+        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(realClientSecretsLoc)
+        
+//        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(RESOURCE_LOCATION_TEST)
+        val rUrl: String = GoogleCredentialsUtil.buildAuthorizationUrl(gcs)
+        println("GoogleCredentialsUtil.buildAuthorizationUrl -  rUrl " + rUrl)
+        rUrl.isEmpty mustNotEqual true
+        rUrl.contains("oauth2") mustEqual true
+        rUrl.contains("accounts.google.com") mustEqual true
+      }
+    }
+
+//    "GoogleCredentialsUtil.exchangeCode" in {
+//      val authorizationCode: String = ""
+//      val rCredential = GoogleCredentialsUtil.exchangeCode(authorizationCode)
+//      println("GoogleCredentialsUtil.exchangeCode rCredential" + rCredential)
+//      rCredential mustNotEqual null
+//    }
   }
 
 }
