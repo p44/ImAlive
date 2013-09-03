@@ -8,6 +8,8 @@ object Models {
   
   val CONF = ConfigFactory.load
   val GOOGLE_CLIENT_SECRETS_LOCATION = CONF.getString("google.client.secrets.location")
+  val GOOGLE_SERVICE_KEY_LOCATION = CONF.getString("google.service.key.location")
+  val GOOGLE_SERVICE_ACCOUNT_ID = CONF.getString("google.service.account.id")
   
   val cid1: Long = 1L
   val cid2: Long = 2L
