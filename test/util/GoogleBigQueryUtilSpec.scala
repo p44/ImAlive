@@ -25,12 +25,11 @@ object GoogleBigQueryUtilSpec extends Specification {
       }
     }
 
-    // getClientCredentialsExplicit(authUri: String, clientId: String, clientSecret: String, redirectUris: List[String]): GoogleClientSecrets
-    "GoogleCredentialsUtil.getClientCredentialsExplicit" in {
+    "GoogleCredentialsUtil.getClientSecretsExplicit" in {
       val cId = "XXXXXXXXXXXXXXXXXXXX.apps.googleusercontent.com"
       val cs = "XXXXXXXXXXXXXXXXXXXX"
       val rUris = List("http://localhost/oauth2callback", "https://www.example.com/oauth2callback")
-      val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsExplicit(ATUH_URI, cId, cs, rUris)
+      val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientSecretsExplicit(ATUH_URI, cId, cs, rUris)
       println("GoogleCredentialsUtil.getClientCredentialsExplicit - gcs" + gcs)
       gcs.getDetails.getClientId mustEqual cId
       gcs.getDetails.getAuthUri mustEqual ATUH_URI
@@ -47,7 +46,7 @@ object GoogleBigQueryUtilSpec extends Specification {
 
     "GoogleCredentialsUtil.getClientCredentialsFromConfig" in {
       running(FakeApplication()) {
-        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(RESOURCE_LOCATION_TEST)
+        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientSecretsFromConfig(RESOURCE_LOCATION_TEST)
         println("GoogleCredentialsUtil.getClientCredentialsFromConfig - gcs" + gcs)
         gcs.getDetails.getClientId.isEmpty mustNotEqual true
         gcs.getDetails.getAuthUri mustEqual ATUH_URI
@@ -55,7 +54,7 @@ object GoogleBigQueryUtilSpec extends Specification {
     }
 
     "GoogleCredentialsUtil.newFlow" in {
-      val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(RESOURCE_LOCATION_TEST)
+      val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientSecretsFromConfig(RESOURCE_LOCATION_TEST)
       val flow = GoogleCredentialsUtil.newFlow(gcs)
       println("GoogleCredentialsUtil.newFlow - flow" + flow)
       flow.getApprovalPrompt mustEqual "auto"
@@ -63,12 +62,8 @@ object GoogleBigQueryUtilSpec extends Specification {
 
     "GoogleCredentialsUtil.buildAuthorizationUrl" in {
       running(FakeApplication()) {
-//        // build a real url from the props  // Error: invalid_client
-//        val realClientSecretsLoc = "conf/my_client_secrets.json"
         val realClientSecretsLoc = "conf/installed_bigquery_client_secrets.json"
-        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(realClientSecretsLoc)
-        
-//        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientCredentialsFromConfig(RESOURCE_LOCATION_TEST)
+        val gcs: GoogleClientSecrets = GoogleCredentialsUtil.getClientSecretsFromConfig(realClientSecretsLoc)
         val rUrl: String = GoogleCredentialsUtil.buildAuthorizationUrl(gcs)
         println("GoogleCredentialsUtil.buildAuthorizationUrl -  rUrl " + rUrl)
         rUrl.isEmpty mustNotEqual true
@@ -76,13 +71,22 @@ object GoogleBigQueryUtilSpec extends Specification {
         rUrl.contains("accounts.google.com") mustEqual true
       }
     }
+    
+    "GoogleCredentialsUtil.buildServiceCredential" in {
+      val rCred = GoogleCredentialsUtil.buildServiceCredential
+      println("GoogleCredentialsUtil.buildServiceCredential -  rCred " + rCred)
+      rCred mustNotEqual null
+    }
+    
+    // This test requires a valid p12 file in the conf dir as well as accurate setting in application.conf
+    // google.service.key.location="conf/put-your-p12-file-from-google-in-conf-privatekey.p12"
+    // or you get FileNotFoundException: (No such file or directory) 
+    "getBigQueryUsingServiceAuth" in {
+      val rBq = GoogleBigQueryUtil.getBigQueryUsingServiceAuth
+      println("getBigQueryUsingServiceAuth - rBq " + rBq)
+    }
 
-//    "GoogleCredentialsUtil.exchangeCode" in {
-//      val authorizationCode: String = ""
-//      val rCredential = GoogleCredentialsUtil.exchangeCode(authorizationCode)
-//      println("GoogleCredentialsUtil.exchangeCode rCredential" + rCredential)
-//      rCredential mustNotEqual null
-//    }
+
   }
 
 }
