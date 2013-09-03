@@ -3,8 +3,6 @@ ImAlive
 
 A sample reactive Play 2.1 application 
 
-Receives (simulated) periodic messages from networked devices, stores and queries.
-
 
 About
 --------------
