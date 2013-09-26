@@ -43,8 +43,6 @@ object Application extends Controller with Secured {
         }
         case _ => {
           // NOTE: assumes a standard format of json here
-          // save to a big data store
-          BigDataActors.supervisor ! BigDataActors.ReceiveOneStatusMessage(jsonValue.get)
           aliveChannel.push(jsonValue.get); // publish to the channel
           Ok
         }

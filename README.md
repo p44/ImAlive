@@ -34,5 +34,4 @@ This sample uses
 * Scala 2.10.2
 * Playframework 2.1.3
 * Akka 2.2.0
-* TODO Google BigQuery
 
